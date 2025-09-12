@@ -1,0 +1,24 @@
+#cloud-config
+users:
+  - name: gary
+    groups: sudo
+    shell: /bin/bash
+    ssh-authorized-keys:
+      - ssh-rsa AAAAB3Nz...your_public_key_here
+
+package_update: true
+packages:
+  - git
+  - curl
+
+runcmd:
+  - curl -fsSL https://get.docker.com | sh
+  - usermod -aG docker gary
+
+  - curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+  - chmod +x /usr/local/bin/docker-compose
+
+  - sudo -u gary -i git clone https://github.com/example/docker-setup.git ~/docker-setup
+  - sudo -u gary -i git clone https://github.com/example/airflow-setup.git ~/airflow-setup
+
+  - sudo -u gary -i bash -c "cd ~/airflow-setup && docker-compose up -d"

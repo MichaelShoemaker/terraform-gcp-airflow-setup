@@ -1,0 +1,10 @@
+environment     = "prod"
+project_id      = "my-gcp-project"
+region          = "us-central1"
+zone            = "us-central1-a"
+bucket_name     = "my-data-bucket-12345"
+bq_dataset_id   = "airflow_dataset"
+vm_name         = "airflow-prod-vm"
+vm_machine_type = "e2-standard-2"
+vm_disk_size_gb = 25
+ssh_user        = "gary"
