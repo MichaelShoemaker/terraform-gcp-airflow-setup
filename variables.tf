@@ -1,37 +1,19 @@
-variable "environment" {
-  description = "Deployment environment (test or prod)"
-  type        = string
-  default     = "prod"
-}
-
 variable "project_id" {
-  description = "The GCP project ID (used in prod only)"
+  description = "The GCP project ID"
   type        = string
   default     = ""
 }
 
 variable "region" {
-  description = "The region to deploy resources in (prod only)"
+  description = "The region to deploy resources in"
   type        = string
   default     = "us-central1"
 }
 
 variable "zone" {
-  description = "The zone to deploy the VM in (prod only)"
+  description = "The zone to deploy the VM in"
   type        = string
   default     = "us-central1-a"
-}
-
-variable "bucket_name" {
-  description = "The name of the GCS bucket (prod only)"
-  type        = string
-  default     = "my-data-bucket-12345"
-}
-
-variable "bq_dataset_id" {
-  description = "The dataset ID for BigQuery (prod only)"
-  type        = string
-  default     = "my_dataset"
 }
 
 variable "vm_name" {
@@ -41,15 +23,15 @@ variable "vm_name" {
 }
 
 variable "vm_machine_type" {
-  description = "The machine type for the GCP VM (prod only)"
+  description = "The machine type for the GCP VM"
   type        = string
   default     = "e2-medium"
 }
 
 variable "vm_disk_size_gb" {
-  description = "Disk size for the GCP VM in GB (prod only)"
+  description = "Disk size for the GCP VM in GB"
   type        = number
-  default     = 20
+  default     = 15
 }
 
 variable "ssh_user" {

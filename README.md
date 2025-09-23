@@ -1,16 +1,11 @@
-# GCP + VirtualBox Airflow Setup with Terraform
+# GCP Airflow VM with Terraform
 
-This project provisions a basic data engineering playground on **Google Cloud Platform (prod)** or **VirtualBox (test)** using Terraform and cloud-init.
+This project provisions a single Ubuntu VM on Google Cloud Platform using Terraform and cloud-init. The VM installs Docker and Airflow via the provided bootstrap.
 
 ## 🚀 What it creates
-- In **prod mode**:
-  - A Google Cloud Storage bucket
-  - A BigQuery dataset
-  - An Ubuntu VM on GCP
-- In **test mode**:
-  - A local Ubuntu VM on VirtualBox
+- An Ubuntu VM on GCP
 
-Both modes use the same `user-data.yaml` bootstrap to:
+The VM uses `user-data.yaml` to:
 - Create user `gary` with your SSH public key
 - Install Docker and Docker Compose
 - Clone two GitHub repos
@@ -19,33 +14,23 @@ Both modes use the same `user-data.yaml` bootstrap to:
 ---
 
 ## 📂 Project Structure
-- `main.tf` → Defines GCP + VirtualBox resources
-- `variables.tf` → Shared variables
-- `prod.tfvars` → Values for production (GCP)
-- `test.tfvars` → Values for testing (VirtualBox)
-- `outputs.tf` → Shows VM IP + SSH command (GCP only)
+- `main.tf` → Defines GCP resources (VM)
+- `variables.tf` → Variables
+- `prod.tfvars` → Values for your GCP deployment
+- `outputs.tf` → Shows VM IP + SSH command
 - `user-data.yaml` → Cloud-init bootstrap script
 
 ---
 
 ## 🔑 Prerequisites
 - [Terraform](https://developer.hashicorp.com/terraform/downloads)
-- [gcloud CLI](https://cloud.google.com/sdk/docs/install) (for prod)
-- [VirtualBox](https://www.virtualbox.org/) + [terraform-provider-virtualbox](https://github.com/terra-farm/terraform-provider-virtualbox) (for test)
-- A GCP project with billing enabled (for prod)
+- [gcloud CLI](https://cloud.google.com/sdk/docs/install)
+- A GCP project with billing enabled
 - Your SSH key pair (`~/.ssh/id_rsa` and `~/.ssh/id_rsa.pub`)
 
 ---
 
 ## ⚙️ Usage
-
-### Test (local VirtualBox VM)
-```bash
-terraform init
-terraform apply -var-file="test.tfvars"
-```
-
-### Prod (GCP VM + bucket + dataset)
 ```bash
 terraform init
 terraform apply -var-file="prod.tfvars"
@@ -56,15 +41,12 @@ terraform apply -var-file="prod.tfvars"
 ## 🧹 Cleanup
 Destroy resources when done:
 ```bash
-terraform destroy -var-file="test.tfvars"  # Local test
-terraform destroy -var-file="prod.tfvars"  # GCP prod
+terraform destroy -var-file="prod.tfvars"
 ```
 
 ---
 
 ## 📌 Notes
-- Public keys in metadata are safe. Never store private keys in Terraform or GCP.  
-- For production, consider **OS Login** instead of metadata-based SSH keys.  
-- VirtualBox resources are only created in `test` mode, GCP resources only in `prod` mode.  
-
-Enjoy your hybrid GCP + VirtualBox Airflow playground! 🎉
+- Public keys in metadata are safe. Never store private keys in Terraform or GCP.
+- For production, consider **OS Login** instead of metadata-based SSH keys.
+- After apply, the outputs show the VM IP and a ready-to-copy SSH command.

@@ -12,13 +12,14 @@ packages:
   - curl
 
 runcmd:
-  - curl -fsSL https://get.docker.com | sh
-  - usermod -aG docker gary
+  # Clone your Docker install repo
+  - sudo -u gary -i git clone https://github.com/MichaelShoemaker/DockerComposeInstall.git /home/gary/docker-install
 
-  - curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-  - chmod +x /usr/local/bin/docker-compose
+  # Run your install script (as root)
+  - bash /home/gary/docker-install/InstallDocker
 
-  - sudo -u gary -i git clone https://github.com/example/docker-setup.git ~/docker-setup
-  - sudo -u gary -i git clone https://github.com/example/airflow-setup.git ~/airflow-setup
+  # Clone your Airflow project as gary
+  - sudo -u gary -i git clone https://github.com/MichaelShoemaker/airflow3.0-docker-compose.git /home/gary/airflow-setup
 
-  - sudo -u gary -i bash -c "cd ~/airflow-setup && docker-compose up -d"
+  # Bring up the stack (root runs it once so containers start right away)
+  - cd /home/gary/airflow-setup && docker compose up -d
