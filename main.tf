@@ -22,6 +22,7 @@ resource "google_compute_instance" "vm" {
   }
 
   metadata = {
+    ssh-keys = "gary:${file("~/.ssh/id_rsa.pub")}"
     user-data = file("${path.module}/user-data.yaml")
   }
 }

@@ -3,8 +3,7 @@ users:
   - name: gary
     groups: sudo
     shell: /bin/bash
-    ssh-authorized-keys:
-      - ssh-rsa AAAAB3Nz...your_public_key_here
+
 
 package_update: true
 packages:
