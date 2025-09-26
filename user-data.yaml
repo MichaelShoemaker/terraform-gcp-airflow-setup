@@ -1,24 +1,34 @@
 #cloud-config
 users:
   - name: gary
-    groups: sudo
+    groups: [sudo, docker]
     shell: /bin/bash
-
 
 package_update: true
 packages:
   - git
   - curl
+  - ca-certificates
+  - gnupg
+  - lsb-release
 
 runcmd:
-  # Clone your Docker install repo
-  - sudo -u gary -i git clone https://github.com/MichaelShoemaker/DockerComposeInstall.git /home/gary/docker-install
-
-  # Run your install script (as root)
-  - bash /home/gary/docker-install/InstallDocker
-
+  # Install Docker using official method
+  - curl -fsSL https://get.docker.com -o get-docker.sh
+  - sh get-docker.sh
+  - usermod -aG docker gary
+  
+  # Install Docker Compose (standalone)
+  - curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+  - chmod +x /usr/local/bin/docker-compose
+  - ln -sf /usr/local/bin/docker-compose /usr/bin/docker-compose
+  
   # Clone your Airflow project as gary
   - sudo -u gary -i git clone https://github.com/MichaelShoemaker/airflow3.0-docker-compose.git /home/gary/airflow-setup
-
-  # Bring up the stack (root runs it once so containers start right away)
-  - cd /home/gary/airflow-setup && docker compose up -d
+  
+  # Start Docker service
+  - systemctl start docker
+  - systemctl enable docker
+  
+  # Bring up the Airflow stack (run as gary user)
+  - sudo -u gary -i bash -c "cd /home/gary/airflow-setup && docker compose up -d"
