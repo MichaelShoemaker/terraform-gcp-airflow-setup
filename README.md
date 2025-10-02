@@ -29,7 +29,7 @@ The VM uses `user-data.yaml` to:
 - [Terraform](https://developer.hashicorp.com/terraform/downloads)
 - [gcloud CLI](https://cloud.google.com/sdk/docs/install)
 - A GCP project with billing enabled
-- Your SSH key pair (`~/.ssh/id_rsa` and `~/.ssh/id_rsa.pub`)
+- Your SSH key pair (`~/.ssh/gcp` and `~/.ssh/gcp.pub`)
 
 ---
 
@@ -44,7 +44,7 @@ terraform apply -var-file="prod.tfvars"
 ### Connect to your VM
 After deployment, use the SSH command from the output:
 ```bash
-ssh -i ~/.ssh/id_rsa gary@<VM_IP>
+ssh -i ~/.ssh/gcp gary@<VM_IP>
 ```
 
 ### Verify Installation
@@ -75,7 +75,7 @@ terraform destroy -var-file="prod.tfvars"
 - The VM uses official Docker installation methods for better reliability
 - User `gary` is automatically added to the docker group
 - Airflow starts automatically after VM creation
-- SSH key is added via GCP metadata (ensure `~/.ssh/id_rsa.pub` exists)
+- SSH key is added via GCP metadata (ensure `~/.ssh/gcp.pub` exists)
 - VM has 15GB disk and e2-standard-2 machine type by default
 
 ## 🔧 Customization
