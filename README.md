@@ -25,6 +25,10 @@ The VM uses `user-data.yaml` to:
 
 ---
 
+## Create Key Pair
+- ssh-keygen -t rsa -f ~/.ssh/gcp -C gary
+If you want you can update the key name and user name, but will also need to update these in main.tf, prod.tvars and user-data.yaml.
+
 ## 🔑 Prerequisites
 - [Terraform](https://developer.hashicorp.com/terraform/downloads)
 - [gcloud CLI](https://cloud.google.com/sdk/docs/install)
